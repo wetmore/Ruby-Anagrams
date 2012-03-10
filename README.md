@@ -1,7 +1,7 @@
 NAG A RAM
 =========
 
-Generate single-word anagrams for exciting wordplay fun! I needed a way to play with ruby, so why not anamgrams?
+Generate single-word anagrams for exciting wordplay fun! I needed a way to play with ruby, so why not anagrams?
 
 Because the number of permutations of a word is based on a factorial, the runtime increases _incredibly_ with larger inputs. 
 
