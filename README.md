@@ -9,7 +9,9 @@ Usage
 ----
 
 ```
-ruby anagram.rb
+ruby anagram.rb [options] [word]
 ```
 
-The anagrams are checked against a dictionary. By default, the program looks first in /usr/share/dict/words, which is the location in OS X. If that doesn't exist, it checks for /usr/dict/words. You can provide your own dictionary file with ```ruby anagram.rb DICTSRC``` where DICTSRC is the source of the file you want to use. 
+Where word is what you want to anagram (if provided - you will be prompted if it isn't provided on the command line.
+
+The anagrams are checked against a dictionary. By default, the program looks first in /usr/share/dict/words, which is the location in OS X. If that doesn't exist, it checks for /usr/dict/words. You can provide your own dictionary file with ```ruby anagram.rb -d DICTSRC``` where DICTSRC is the source of the file you want to use. 

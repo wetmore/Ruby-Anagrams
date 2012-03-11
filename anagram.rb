@@ -1,16 +1,37 @@
 #/usr/bin/env ruby
 
-if File.exists?('/usr/share/dict/words')
-  dictsrc = '/usr/share/dict/words'
-elsif File.exists?('/usr/dict/words')
-  dictsrc = '/usr/dist/words'
-else
-  puts "No dictionary file found. Try supplying one with $ruby anagram.rb DICTSRC"
-  exit
+require 'optparse'
+
+options = {}
+o = OptionParser.new do |opts|
+  opts.banner = 'Usage: anagram.rb [options]'
+  opts.on('-d', '--dictionary DICTSRC', 'Provide dictionary to compare anagrams against') do |dict|
+    options[:dictionary] = dict
+  end 
 end
 
-if ARGV.size != 0
-  dictsrc = ARGV[0]
+begin o.parse!
+rescue OptionParser::MissingArgument, OptionParser::InvalidOption => e
+  puts e
+  puts o
+  exit 1
+end
+
+if not options[:dictionary]
+  if File.exists?('/usr/share/dict/words')
+    dictsrc = '/usr/share/dict/words'
+  elsif File.exists?('/usr/dict/words')
+    dictsrc = '/usr/dist/words'
+  else
+    puts "No dictionary file found. Try supplying one with $ruby anagram.rb -d DICTSRC"
+    exit 1
+  end
+else
+  dictsrc = options[:dictionary]
+  if not File.exists?(dictsrc)
+    puts "Provided dictionary file not found."
+    exit 1
+  end
 end
 
 dict = IO.read(dictsrc).split(/\n/)
@@ -21,8 +42,13 @@ barSize = 40
 continue = false
 
 until continue
-  print "Enter a word: "
-  word = gets.chomp
+  if ARGV.size != 0
+    word = ARGV[0]
+    ARGV.clear
+  else
+    print "Enter a word: "
+    word = gets.chomp.split[0]
+  end
   if word.size > 10
     puts "That word's too long; it will freeze your shit. Try a new word"
   elsif word.size > 8
